@@ -49,15 +49,12 @@ public class OrderDAO {
         Order order = new Order();
 
         order.setId(UUID.randomUUID().toString());
-        order.setOrderNum(orderNum);
         order.setOrderDate(new Date());
         order.setAmount(cartInfo.getAmountTotal());
 
         CustomerInfo customerInfo = cartInfo.getCustomerInfo();
-        order.setCustomerName(customerInfo.getName());
-        order.setCustomerEmail(customerInfo.getEmail());
-        order.setCustomerPhone(customerInfo.getPhone());
-        order.setCustomerAddress(customerInfo.getAddress());
+        order.setUsername(customerInfo.getUsername());
+        order.setStatus(1);
 
         session.persist(order);
 
@@ -108,8 +105,7 @@ public class OrderDAO {
             return null;
         }
         return new OrderInfo(order.getId(), order.getOrderDate(), //
-                order.getOrderNum(), order.getAmount(), order.getCustomerName(), //
-                order.getCustomerAddress(), order.getCustomerEmail(), order.getCustomerPhone());
+                order.getUsername(), order.getAmount(), order.getStatus());
     }
 
     public List<OrderDetailInfo> listOrderDetailInfos(String orderId) {

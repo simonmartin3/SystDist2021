@@ -1,13 +1,15 @@
 package com.ecommerce.microcommerce.form;
 
+import com.ecommerce.microcommerce.entity.Account;
 import com.ecommerce.microcommerce.model.CustomerInfo;
 
 public class CustomerForm {
 
-    private String name;
+    private String username;
+    private String lastname;
     private String address;
-    private String email;
-    private String phone;
+    private String city;
+    private int zip;
 
     private boolean valid;
 
@@ -17,27 +19,38 @@ public class CustomerForm {
 
     public CustomerForm(CustomerInfo customerInfo) {
         if (customerInfo != null) {
-            this.name = customerInfo.getName();
+            this.username = customerInfo.getUsername();
+            this.lastname = customerInfo.getLastname();
             this.address = customerInfo.getAddress();
-            this.email = customerInfo.getEmail();
-            this.phone = customerInfo.getPhone();
+            this.city = customerInfo.getCity();
+            this.zip = customerInfo.getZip();
         }
     }
 
-    public String getName() {
-        return name;
+    public CustomerForm(Account account) {
+        if (account != null) {
+            this.username = account.getUserName();
+            this.lastname = account.getLastName();
+            this.address = account.getAddress();
+            this.city = account.getCity();
+            this.zip = account.getZip();
+        }
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getUsername() {
+        return username;
     }
 
-    public String getEmail() {
-        return email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getAddress() {
@@ -48,12 +61,20 @@ public class CustomerForm {
         this.address = address;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getCity() {
+        return city;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public int getZip() {
+        return zip;
+    }
+
+    public void setZip(int zip) {
+        this.zip = zip;
     }
 
     public boolean isValid() {

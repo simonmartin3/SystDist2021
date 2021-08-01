@@ -7,13 +7,10 @@ public class OrderInfo {
 
     private String id;
     private Date orderDate;
-    private int orderNum;
     private double amount;
 
-    private String customerName;
-    private String customerAddress;
-    private String customerEmail;
-    private String customerPhone;
+    private String username;
+    private int status;
 
     private List<OrderDetailInfo> details;
 
@@ -22,18 +19,14 @@ public class OrderInfo {
     }
 
     // Using for Hibernate Query.
-    public OrderInfo(String id, Date orderDate, int orderNum, //
-                     double amount, String customerName, String customerAddress, //
-                     String customerEmail, String customerPhone) {
+    public OrderInfo(String id, Date orderDate, String username, //
+                     double amount, int status) {
         this.id = id;
         this.orderDate = orderDate;
-        this.orderNum = orderNum;
         this.amount = amount;
 
-        this.customerName = customerName;
-        this.customerAddress = customerAddress;
-        this.customerEmail = customerEmail;
-        this.customerPhone = customerPhone;
+        this.username = username;
+        this.status = status;
     }
 
     public String getId() {
@@ -52,14 +45,6 @@ public class OrderInfo {
         this.orderDate = orderDate;
     }
 
-    public int getOrderNum() {
-        return orderNum;
-    }
-
-    public void setOrderNum(int orderNum) {
-        this.orderNum = orderNum;
-    }
-
     public double getAmount() {
         return amount;
     }
@@ -68,36 +53,20 @@ public class OrderInfo {
         this.amount = amount;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getCustomerAddress() {
-        return customerAddress;
+    public int getStatus() {
+        return status;
     }
 
-    public void setCustomerAddress(String customerAddress) {
-        this.customerAddress = customerAddress;
-    }
-
-    public String getCustomerEmail() {
-        return customerEmail;
-    }
-
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
-    }
-
-    public String getCustomerPhone() {
-        return customerPhone;
-    }
-
-    public void setCustomerPhone(String customerPhone) {
-        this.customerPhone = customerPhone;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public List<OrderDetailInfo> getDetails() {

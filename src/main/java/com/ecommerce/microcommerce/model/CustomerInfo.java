@@ -1,13 +1,15 @@
 package com.ecommerce.microcommerce.model;
 
+import com.ecommerce.microcommerce.entity.Account;
 import com.ecommerce.microcommerce.form.CustomerForm;
 
 public class CustomerInfo {
 
-    private String name;
+    private String username;
+    private String lastname;
     private String address;
-    private String email;
-    private String phone;
+    private String city;
+    private int zip;
 
     private boolean valid;
 
@@ -16,27 +18,29 @@ public class CustomerInfo {
     }
 
     public CustomerInfo(CustomerForm customerForm) {
-        this.name = customerForm.getName();
+        this.username = customerForm.getUsername();
+        this.lastname = customerForm.getLastname();
         this.address = customerForm.getAddress();
-        this.email = customerForm.getEmail();
-        this.phone = customerForm.getPhone();
+        this.city = customerForm.getCity();
+        this.zip = customerForm.getZip();
         this.valid = customerForm.isValid();
     }
 
-    public String getName() {
-        return name;
+
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getEmail() {
-        return email;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getAddress() {
@@ -47,12 +51,20 @@ public class CustomerInfo {
         this.address = address;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getCity() {
+        return city;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public int getZip() {
+        return zip;
+    }
+
+    public void setZip(int zip) {
+        this.zip = zip;
     }
 
     public boolean isValid() {

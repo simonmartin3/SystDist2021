@@ -20,26 +20,21 @@ public class Order implements Serializable {
     @Column(name = "ID", length = 50)
     private String id;
 
-    @Column(name = "Order_Date", nullable = false)
-    private Date orderDate;
+    @Column(name = "User_Name", nullable = false)
+    private String username;
 
     @Column(name = "Order_Num", nullable = false)
     private int orderNum;
 
+    @Column(name = "Order_Date", nullable = false)
+    private Date orderDate;
+
     @Column(name = "Amount", nullable = false)
     private double amount;
 
-    @Column(name = "Customer_Name", length = 255, nullable = false)
-    private String customerName;
+    @Column(name = "Status", nullable = false)
+    private int status;
 
-    @Column(name = "Customer_Address", length = 255, nullable = false)
-    private String customerAddress;
-
-    @Column(name = "Customer_Email", length = 128, nullable = false)
-    private String customerEmail;
-
-    @Column(name = "Customer_Phone", length = 128, nullable = false)
-    private String customerPhone;
 
     public String getId() {
         return id;
@@ -53,16 +48,16 @@ public class Order implements Serializable {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
-    }
-
     public int getOrderNum() {
         return orderNum;
     }
 
     public void setOrderNum(int orderNum) {
         this.orderNum = orderNum;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
     public double getAmount() {
@@ -73,35 +68,20 @@ public class Order implements Serializable {
         this.amount = amount;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getCustomerAddress() {
-        return customerAddress;
+    public int getStatus() {
+        return status;
     }
 
-    public void setCustomerAddress(String customerAddress) {
-        this.customerAddress = customerAddress;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
-    public String getCustomerEmail() {
-        return customerEmail;
-    }
-
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
-    }
-
-    public String getCustomerPhone() {
-        return customerPhone;
-    }
-
-    public void setCustomerPhone(String customerPhone) {
-        this.customerPhone = customerPhone;
-    }
 }

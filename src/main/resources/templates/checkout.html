@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head>
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="img/fav.png">
+    <!-- meta character set -->
+    <meta charset="UTF-8">
+    <!-- Site Title -->
+    <title>INPRES Shop</title>
+
+    <!--
+            CSS
+            ============================================= -->
+    <link rel="stylesheet" href="css/linearicons.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/themify-icons.css">
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/owl.carousel.css">
+	<link rel="stylesheet" href="css/nice-select.css">
+	<link rel="stylesheet" href="css/nouislider.min.css">
+	<link rel="stylesheet" href="css/ion.rangeSlider.css" />
+	<link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
+	<link rel="stylesheet" href="css/magnific-popup.css">
+	<link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+
+    <!-- Start Header Area -->
+<header class="header_area sticky-header">
+    <div class="main_menu">
+        <nav class="navbar navbar-expand-lg navbar-light main_box">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <a class="navbar-brand logo_h" th:href="@{/}"><img src="img/logo.png" alt=""></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav menu_nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
+                        <th:block sec:authorize="isAuthenticated()">
+                            <li class="nav-item"><a class="nav-link" th:href="@{/admin/accountInfo}" th:utext="${#request.userPrincipal.name}"></a></li>
+                            <li class="nav-item"><a class="nav-link" th:href="@{/admin/logout}">Logout</a></li>
+                        </th:block>
+
+                        <th:block sec:authorize="!isAuthenticated()">
+                            <li class="nav-item"><a class="nav-link" th:href="@{/admin/login}">Login</a></li>
+                        </th:block>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="nav-item active"><a th:href="@{/shoppingCart}" class="cart"><span class="ti-bag active"></span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+	<!-- End Header Area -->
+
+    <!-- Start Banner Area -->
+    <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                    <h1>Checkout</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Banner Area -->
+
+    <!--================Checkout Area =================-->
+    <section class="checkout_area section_gap">
+        <div class="container">
+            <div class="billing_details">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h3>Détails de la facture</h3>
+
+                        <form class="row contact_form" th:object="${customerForm}" th:action="@{/checkout}" method="post" novalidate="novalidate">
+                            <!--<div class="col-md-6 form-group p_star">
+                                <h6>Prénom</h6>
+                                <input type="text" class="form-control" id="first" th:field="*{username}" th:value="${customerForm.username}" readonly="true">
+                            </div>
+                            <div class="col-md-6 form-group p_star">
+                                <h6>Nom</h6>
+                                <input type="text" class="form-control" id="last" th:field="*{lastname}" th:value="${customerForm.lastname}" readonly="true">
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <h6>Rue</h6>
+                                <input type="text" class="form-control" id="add1" th:field="*{address}" th:value="${customerForm.address}" readonly="true">
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <h6>Ville</h6>
+                                <input type="text" class="form-control" id="city" th:field="*{city}" th:value="${customerForm.city}" readonly="true">
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <h6>Code postal</h6>
+                                <input type="text" class="form-control" id="zip" th:field="*{zip}" th:value="${customerForm.zip}" readonly="true">
+                            </div>-->
+                            <div class="col-md-6 form-group p_star">
+                                <h6>Prénom</h6>
+                                <input type="text" class="form-control" id="first" th:value="${customerForm.username}" readonly="true">
+                            </div>
+                            <div class="col-md-6 form-group p_star">
+                                <h6>Nom</h6>
+                                <input type="text" class="form-control" id="last" th:value="${customerForm.lastname}" readonly="true">
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <h6>Rue</h6>
+                                <input type="text" class="form-control" id="add1" th:value="${customerForm.address}" readonly="true">
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <h6>Ville</h6>
+                                <input type="text" class="form-control" id="city" th:value="${customerForm.city}" readonly="true">
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <h6>Code postal</h6>
+                                <input type="text" class="form-control" id="zip" th:value="${customerForm.zip}" readonly="true">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="order_box">
+                            <h2>Votre commande</h2>
+                            <ul class="list" th:each="cartLineInfo, varStatus : ${cartInfo.cartLines}">
+                                <li>Produits<span class="last">Total</span></li>
+                                <li><span th:utext="${cartLineInfo.productInfo.name}"></span> <span class="middle" th:utext="${cartLineInfo.quantity}">x</span> <span class="last subtotal" th:utext="${#numbers.formatDecimal(cartLineInfo.amount,1,2,'COMMA')}">€</span></li>
+
+                            </ul>
+                            <ul class="list list_2">
+                                <li><a href="#">Sous-total <span class="last" th:utext="${#numbers.formatDecimal(cartInfo.amountTotal,1,2,'COMMA')}"></span></a></li>
+                                <li><a href="#">TVA <span class="last"></span></a></li>
+                                <li><a href="#">Total <span class="last" th:utext="${#numbers.formatDecimal(cartInfo.amountTotal,1,2,'COMMA')}"></span></a></li>
+                            </ul>
+                            <a class="primary-btn" th:href="@{/checkout}">Procéder au paiement</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End Checkout Area =================-->
+
+    <!-- start footer Area -->
+    <footer class="footer-area section_gap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12  col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6>A propos de nous</h6>
+                        <p>
+                            Site de revente en ligne réalisé pour le projet de fin d'année du cours de système distribué.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
+                <p class="footer-text m-0">Copyright &copy;2021 Tous droits réservés | MARTIN Simon</p>
+            </div>
+        </div>
+    </footer>
+    <!-- End footer Area -->
+
+    <script th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js}" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+            crossorigin="anonymous"></script>
+    <script th:src="@{/js/vendor/bootstrap.min.js}"></script>
+    <script th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
+    <script th:src="@{/js/jquery.nice-select.min.js}"></script>
+    <script th:src="@{/js/jquery.sticky.js}"></script>
+    <script th:src="@{/js/nouislider.min.js}"></script>
+    <script th:src="@{/js/countdown.js}"></script>
+    <script th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+    <script th:src="@{/js/owl.carousel.min.js}"></script>
+    <!--gmaps Js-->
+    <script th:src="@{/js/gmaps.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+</body>
+
+</html>

@@ -5,8 +5,10 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ecommerce.microcommerce.dao.AccountDAO;
 import com.ecommerce.microcommerce.dao.OrderDAO;
 import com.ecommerce.microcommerce.dao.ProductDAO;
+import com.ecommerce.microcommerce.entity.Account;
 import com.ecommerce.microcommerce.entity.Product;
 import com.ecommerce.microcommerce.form.CustomerForm;
 import com.ecommerce.microcommerce.model.CartInfo;
@@ -16,6 +18,8 @@ import com.ecommerce.microcommerce.pagination.PaginationResult;
 import com.ecommerce.microcommerce.utils.Utils;
 import com.ecommerce.microcommerce.validator.CustomerFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -38,6 +42,9 @@ public class MainController {
 
     @Autowired
     private ProductDAO productDAO;
+
+    @Autowired
+    private AccountDAO accountDAO;
 
     @Autowired
     private CustomerFormValidator customerFormValidator;
@@ -70,7 +77,16 @@ public class MainController {
     }
 
     @RequestMapping("/")
-    public String home() {
+    public String home(Model model, //
+                       @RequestParam(value = "name", defaultValue = "") String likeName,
+                       @RequestParam(value = "page", defaultValue = "1") int page) {
+        final int maxResult = 8;
+        final int maxNavigationPage = 10;
+
+        PaginationResult<ProductInfo> result = productDAO.queryProducts(page, //
+                maxResult, maxNavigationPage, likeName);
+
+        model.addAttribute("paginationProducts", result);
         return "index";
     }
 
@@ -79,7 +95,7 @@ public class MainController {
     public String listProductHandler(Model model, //
                                      @RequestParam(value = "name", defaultValue = "") String likeName,
                                      @RequestParam(value = "page", defaultValue = "1") int page) {
-        final int maxResult = 5;
+        final int maxResult = 8;
         final int maxNavigationPage = 10;
 
         PaginationResult<ProductInfo> result = productDAO.queryProducts(page, //
@@ -89,7 +105,7 @@ public class MainController {
         return "productList";
     }
 
-    @RequestMapping({ "/buyProduct" })
+    @RequestMapping({ "/addItem" })
     public String listProductHandler(HttpServletRequest request, Model model, //
                                      @RequestParam(value = "code", defaultValue = "") String code) {
 
@@ -110,7 +126,7 @@ public class MainController {
         return "redirect:/shoppingCart";
     }
 
-    @RequestMapping({ "/shoppingCartRemoveProduct" })
+    @RequestMapping({ "/removeItem" })
     public String removeProductHandler(HttpServletRequest request, Model model, //
                                        @RequestParam(value = "code", defaultValue = "") String code) {
         Product product = null;
@@ -151,7 +167,58 @@ public class MainController {
         return "shoppingCart";
     }
 
-    // GET: Enter customer information.
+    // GET: Enter customer information
+    @RequestMapping(value = { "/checkout" }, method = RequestMethod.GET)
+    public String shoppingBillCustomerForm(HttpServletRequest request, Model model) {
+
+        CartInfo cartInfo = Utils.getCartInSession(request);
+
+        if (cartInfo.isEmpty()) {
+
+            return "redirect:/shoppingCart";
+        }
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Account account = accountDAO.findAccount(userDetails.getUsername());
+
+        CustomerForm customerForm = new CustomerForm(account);
+        customerForm.setValid(true);
+        CustomerInfo customerInfo = new CustomerInfo(customerForm);
+        cartInfo.setCustomerInfo(customerInfo);
+
+        model.addAttribute("customerForm", customerForm);
+        model.addAttribute("cartInfo", cartInfo);
+
+        return "checkout";
+    }
+
+    // POST: Save customer information.
+    @RequestMapping(value = { "/checkout" }, method = RequestMethod.POST)
+    public String shoppingBillCustomerSave(HttpServletRequest request, //
+                                           Model model, //
+                                           @ModelAttribute("customerForm") @Validated CustomerForm customerForm, //
+                                           BindingResult result, //
+                                           final RedirectAttributes redirectAttributes) {
+
+        if (result.hasErrors()) {
+            customerForm.setValid(false);
+            // Forward to reenter customer info.
+            return "checkout";
+        }
+
+        customerForm.setValid(true);
+        CartInfo cartInfo = Utils.getCartInSession(request);
+        CustomerInfo customerInfo = new CustomerInfo(customerForm);
+        cartInfo.setCustomerInfo(customerInfo);
+        System.out.println(cartInfo.getCustomerInfo().getUsername());
+
+        return "redirect:/shoppingCartConfirmation";
+    }
+
+
+
+    /*// GET: Enter customer information.
     @RequestMapping(value = { "/shoppingCartCustomer" }, method = RequestMethod.GET)
     public String shoppingCartCustomerForm(HttpServletRequest request, Model model) {
 
@@ -169,6 +236,10 @@ public class MainController {
 
         return "shoppingCartCustomer";
     }
+
+
+
+
 
     // POST: Save customer information.
     @RequestMapping(value = { "/shoppingCartCustomer" }, method = RequestMethod.POST)
@@ -190,7 +261,7 @@ public class MainController {
         cartInfo.setCustomerInfo(customerInfo);
 
         return "redirect:/shoppingCartConfirmation";
-    }
+    }*/
 
     // GET: Show information to confirm.
     @RequestMapping(value = { "/shoppingCartConfirmation" }, method = RequestMethod.GET)
@@ -200,9 +271,6 @@ public class MainController {
         if (cartInfo == null || cartInfo.isEmpty()) {
 
             return "redirect:/shoppingCart";
-        } else if (!cartInfo.isValidCustomer()) {
-
-            return "redirect:/shoppingCartCustomer";
         }
         model.addAttribute("myCart", cartInfo);
 
@@ -218,9 +286,6 @@ public class MainController {
         if (cartInfo.isEmpty()) {
 
             return "redirect:/shoppingCart";
-        } else if (!cartInfo.isValidCustomer()) {
-
-            return "redirect:/shoppingCartCustomer";
         }
         try {
             orderDAO.saveOrder(cartInfo);
