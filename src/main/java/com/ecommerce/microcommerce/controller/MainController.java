@@ -105,6 +105,7 @@ public class MainController {
         return "productList";
     }
 
+    // Ajouter un article dans le panier
     @RequestMapping({ "/addItem" })
     public String listProductHandler(HttpServletRequest request, Model model, //
                                      @RequestParam(value = "code", defaultValue = "") String code) {
@@ -126,6 +127,7 @@ public class MainController {
         return "redirect:/shoppingCart";
     }
 
+    // Supprimer un article du panier
     @RequestMapping({ "/removeItem" })
     public String removeProductHandler(HttpServletRequest request, Model model, //
                                        @RequestParam(value = "code", defaultValue = "") String code) {
@@ -167,7 +169,7 @@ public class MainController {
         return "shoppingCart";
     }
 
-    // GET: Enter customer information
+    // GET: Show cart and cart info
     @RequestMapping(value = { "/checkout" }, method = RequestMethod.GET)
     public String shoppingBillCustomerForm(HttpServletRequest request, Model model) {
 
@@ -193,7 +195,7 @@ public class MainController {
         return "checkout";
     }
 
-    // POST: Save customer information.
+    /*// POST: Save customer information.
     @RequestMapping(value = { "/checkout" }, method = RequestMethod.POST)
     public String shoppingBillCustomerSave(HttpServletRequest request, //
                                            Model model, //
@@ -211,12 +213,35 @@ public class MainController {
         CartInfo cartInfo = Utils.getCartInSession(request);
         CustomerInfo customerInfo = new CustomerInfo(customerForm);
         cartInfo.setCustomerInfo(customerInfo);
-        System.out.println(cartInfo.getCustomerInfo().getUsername());
+        System.err.println("Err" + cartInfo.getCustomerInfo().getUsername());
 
         return "redirect:/shoppingCartConfirmation";
+    }*/
+
+    // POST: Submit Cart (Save)
+    @RequestMapping(value = { "/shoppingCartConfirmation" }, method = RequestMethod.GET)
+    public String shoppingCartConfirmationSave(HttpServletRequest request, Model model) {
+        CartInfo cartInfo = Utils.getCartInSession(request);
+
+        if (cartInfo.isEmpty()) {
+
+            return "redirect:/shoppingCart";
+        }
+        try {
+            orderDAO.saveOrder(cartInfo);
+        } catch (Exception e) {
+
+            return "checkout";
+        }
+
+        // Remove Cart from Session.
+        Utils.removeCartInSession(request);
+
+        // Store last cart.
+        Utils.storeLastOrderedCartInSession(request, cartInfo);
+
+        return "redirect:/shoppingCartFinalize";
     }
-
-
 
     /*// GET: Enter customer information.
     @RequestMapping(value = { "/shoppingCartCustomer" }, method = RequestMethod.GET)
@@ -263,7 +288,7 @@ public class MainController {
         return "redirect:/shoppingCartConfirmation";
     }*/
 
-    // GET: Show information to confirm.
+    /*// GET: Show information to confirm.
     @RequestMapping(value = { "/shoppingCartConfirmation" }, method = RequestMethod.GET)
     public String shoppingCartConfirmationReview(HttpServletRequest request, Model model) {
         CartInfo cartInfo = Utils.getCartInSession(request);
@@ -275,11 +300,10 @@ public class MainController {
         model.addAttribute("myCart", cartInfo);
 
         return "shoppingCartConfirmation";
-    }
+    }*/
 
-    // POST: Submit Cart (Save)
+    /*// POST: Submit Cart (Save)
     @RequestMapping(value = { "/shoppingCartConfirmation" }, method = RequestMethod.POST)
-
     public String shoppingCartConfirmationSave(HttpServletRequest request, Model model) {
         CartInfo cartInfo = Utils.getCartInSession(request);
 
@@ -301,17 +325,17 @@ public class MainController {
         Utils.storeLastOrderedCartInSession(request, cartInfo);
 
         return "redirect:/shoppingCartFinalize";
-    }
+    }*/
 
     @RequestMapping(value = { "/shoppingCartFinalize" }, method = RequestMethod.GET)
     public String shoppingCartFinalize(HttpServletRequest request, Model model) {
 
-        CartInfo lastOrderedCart = Utils.getLastOrderedCartInSession(request);
+        /*CartInfo lastOrderedCart = Utils.getLastOrderedCartInSession(request);
 
         if (lastOrderedCart == null) {
             return "redirect:/shoppingCart";
         }
-        model.addAttribute("lastOrderedCart", lastOrderedCart);
+        model.addAttribute("lastOrderedCart", lastOrderedCart);*/
         return "shoppingCartFinalize";
     }
 

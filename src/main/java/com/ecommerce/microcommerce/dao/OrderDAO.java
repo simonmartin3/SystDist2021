@@ -1,5 +1,6 @@
 package com.ecommerce.microcommerce.dao;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -31,10 +32,10 @@ public class OrderDAO {
     private ProductDAO productDAO;
 
     private int getMaxOrderNum() {
-        String sql = "Select max(o.orderNum) from " + Order.class.getName() + " o ";
+        String sql = "Select count(*) from orders";
         Session session = this.sessionFactory.getCurrentSession();
-        Query<Integer> query = session.createQuery(sql, Integer.class);
-        Integer value = (Integer) query.getSingleResult();
+        Query query = session.createSQLQuery("select count(*) from orders");
+        Integer value = ((BigDecimal) query.uniqueResult()).intValue();
         if (value == null) {
             return 0;
         }

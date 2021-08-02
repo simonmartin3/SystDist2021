@@ -86,26 +86,6 @@
                         <h3>Détails de la facture</h3>
 
                         <form class="row contact_form" th:object="${customerForm}" th:action="@{/checkout}" method="post" novalidate="novalidate">
-                            <!--<div class="col-md-6 form-group p_star">
-                                <h6>Prénom</h6>
-                                <input type="text" class="form-control" id="first" th:field="*{username}" th:value="${customerForm.username}" readonly="true">
-                            </div>
-                            <div class="col-md-6 form-group p_star">
-                                <h6>Nom</h6>
-                                <input type="text" class="form-control" id="last" th:field="*{lastname}" th:value="${customerForm.lastname}" readonly="true">
-                            </div>
-                            <div class="col-md-12 form-group p_star">
-                                <h6>Rue</h6>
-                                <input type="text" class="form-control" id="add1" th:field="*{address}" th:value="${customerForm.address}" readonly="true">
-                            </div>
-                            <div class="col-md-12 form-group p_star">
-                                <h6>Ville</h6>
-                                <input type="text" class="form-control" id="city" th:field="*{city}" th:value="${customerForm.city}" readonly="true">
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <h6>Code postal</h6>
-                                <input type="text" class="form-control" id="zip" th:field="*{zip}" th:value="${customerForm.zip}" readonly="true">
-                            </div>-->
                             <div class="col-md-6 form-group p_star">
                                 <h6>Prénom</h6>
                                 <input type="text" class="form-control" id="first" th:value="${customerForm.username}" readonly="true">
@@ -141,7 +121,7 @@
                                 <li><a href="#">TVA <span class="last"></span></a></li>
                                 <li><a href="#">Total <span class="last" th:utext="${#numbers.formatDecimal(cartInfo.amountTotal,1,2,'COMMA')}"></span></a></li>
                             </ul>
-                            <a class="primary-btn" th:href="@{/checkout}">Procéder au paiement</a>
+                            <a class="primary-btn" th:href="@{/shoppingCartConfirmation}">Procéder au paiement</a>
                         </div>
                     </div>
                 </div>
