@@ -156,6 +156,7 @@ public class MainController {
 
         CartInfo cartInfo = Utils.getCartInSession(request);
         cartInfo.updateQuantity(cartForm);
+        cartInfo.updateShipping(cartForm);
 
         return "redirect:/shoppingCart";
     }
@@ -330,12 +331,12 @@ public class MainController {
     @RequestMapping(value = { "/shoppingCartFinalize" }, method = RequestMethod.GET)
     public String shoppingCartFinalize(HttpServletRequest request, Model model) {
 
-        /*CartInfo lastOrderedCart = Utils.getLastOrderedCartInSession(request);
+        CartInfo lastOrderedCart = Utils.getLastOrderedCartInSession(request);
 
         if (lastOrderedCart == null) {
             return "redirect:/shoppingCart";
         }
-        model.addAttribute("lastOrderedCart", lastOrderedCart);*/
+        model.addAttribute("lastOrderedCart", lastOrderedCart);
         return "shoppingCartFinalize";
     }
 

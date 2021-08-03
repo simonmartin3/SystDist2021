@@ -2,10 +2,7 @@ package com.ecommerce.microcommerce.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Accounts")
@@ -15,7 +12,6 @@ public class Account implements Serializable {
 
     public static final String ROLE_MANAGER = "MANAGER";
     public static final String ROLE_EMPLOYEE = "EMPLOYEE";
-
 
     @Id
     @Column(name = "User_Name", length = 20, nullable = false)

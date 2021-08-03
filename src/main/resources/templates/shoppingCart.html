@@ -95,7 +95,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <form method="POST" th:object="${cartForm}" th:action="@{/shoppingCart}">
+                            <form method="POST" th:object="${cartForm}" th:action="@{/shoppingCart}" id="cartForm">
                                 <tr th:each="cartLineInfo, varStatus : ${cartForm.cartLines}">
                                         <td>
                                             <div class="media">
@@ -141,6 +141,34 @@
 
                                         </td>
                                     </tr>
+                                <tr class="shipping_area">
+                                    <td>
+                                        <input class="button-update-sc gray_btn" type="submit" value="Update Shipping" />
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+
+                                        <div class="default-select" id="default-select">
+                                            <h5>Shipping</h5>
+                                            <select class="shipping_select" name="shipping" id="shipping" form="cartForm">
+                                                <th:block th:if="${cartForm.shipping == 5}">
+                                                    <option value="5" selected>NORMAL - 5€</option>
+                                                    <option value="10">EXPRESS - 10€</option>
+                                                </th:block>
+                                                <th:block th:if="${cartForm.shipping == 10}">
+                                                    <option value="5">NORMAL - 5€</option>
+                                                    <option value="10" selected>EXPRESS - 10€</option>
+                                                </th:block>
+
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
                             </form>
                             <tr class="out_button_area">
                                 <td>

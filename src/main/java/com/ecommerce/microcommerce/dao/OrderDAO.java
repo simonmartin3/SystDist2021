@@ -32,10 +32,10 @@ public class OrderDAO {
     private ProductDAO productDAO;
 
     private int getMaxOrderNum() {
-        String sql = "Select count(*) from orders";
+        String sql = "Select max(o.orderNum) from " + Order.class.getName() + " o ";
         Session session = this.sessionFactory.getCurrentSession();
-        Query query = session.createSQLQuery("select count(*) from orders");
-        Integer value = ((BigDecimal) query.uniqueResult()).intValue();
+        Query<Integer> query = session.createQuery(sql, Integer.class);
+        Integer value = (Integer) query.getSingleResult();
         if (value == null) {
             return 0;
         }
@@ -54,7 +54,7 @@ public class OrderDAO {
         order.setAmount(cartInfo.getAmountTotal());
 
         CustomerInfo customerInfo = cartInfo.getCustomerInfo();
-        order.setUsername(customerInfo.getUsername());
+        order.setUserName(customerInfo.getUsername());
         order.setStatus(1);
 
         session.persist(order);
@@ -106,7 +106,7 @@ public class OrderDAO {
             return null;
         }
         return new OrderInfo(order.getId(), order.getOrderDate(), //
-                order.getUsername(), order.getAmount(), order.getStatus());
+                order.getUserName(), order.getAmount(), order.getStatus());
     }
 
     public List<OrderDetailInfo> listOrderDetailInfos(String orderId) {

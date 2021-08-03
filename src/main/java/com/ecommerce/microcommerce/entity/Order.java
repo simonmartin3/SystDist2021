@@ -20,8 +20,8 @@ public class Order implements Serializable {
     @Column(name = "ID", length = 50)
     private String id;
 
-    @Column(name = "User_Name", nullable = false)
-    private String username;
+    @Column(name = "User_Name", length = 20, nullable = false)
+    private String userName;
 
     @Column(name = "Order_Num", nullable = false)
     private int orderNum;
@@ -68,12 +68,12 @@ public class Order implements Serializable {
         this.amount = amount;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public int getStatus() {

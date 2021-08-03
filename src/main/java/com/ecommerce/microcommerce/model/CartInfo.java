@@ -1,11 +1,14 @@
 package com.ecommerce.microcommerce.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CartInfo {
 
     private int orderNum;
+    private Date orderDate;
+    private int shipping = 5;
 
     private CustomerInfo customerInfo;
 
@@ -22,6 +25,14 @@ public class CartInfo {
     public void setOrderNum(int orderNum) {
         this.orderNum = orderNum;
     }
+
+    public Date getOrderDate() {return orderDate;}
+
+    public void setOrderDate(Date orderDate) {this.orderDate = orderDate;}
+
+    public int getShipping() {return shipping;}
+
+    public void setShipping(int shipping) {this.shipping = shipping;}
 
     public CustomerInfo getCustomerInfo() {
         return customerInfo;
@@ -105,6 +116,7 @@ public class CartInfo {
         for (CartLineInfo line : this.cartLines) {
             total += line.getAmount();
         }
+        total += shipping;
         return total;
     }
 
@@ -114,6 +126,13 @@ public class CartInfo {
             for (CartLineInfo line : lines) {
                 this.updateProduct(line.getProductInfo().getCode(), line.getQuantity());
             }
+        }
+
+    }
+
+    public void updateShipping(CartInfo cartForm) {
+        if (cartForm != null) {
+            this.setShipping(cartForm.shipping);
         }
 
     }

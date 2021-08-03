@@ -9,7 +9,7 @@ public class OrderInfo {
     private Date orderDate;
     private double amount;
 
-    private String username;
+    private String userName;
     private int status;
 
     private List<OrderDetailInfo> details;
@@ -19,13 +19,13 @@ public class OrderInfo {
     }
 
     // Using for Hibernate Query.
-    public OrderInfo(String id, Date orderDate, String username, //
+    public OrderInfo(String id, Date orderDate, String userName, //
                      double amount, int status) {
         this.id = id;
         this.orderDate = orderDate;
         this.amount = amount;
 
-        this.username = username;
+        this.userName = userName;
         this.status = status;
     }
 
@@ -53,12 +53,12 @@ public class OrderInfo {
         this.amount = amount;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserId(String userName) {
+        this.userName = userName;
     }
 
     public int getStatus() {

@@ -109,19 +109,27 @@
                         </form>
                     </div>
                     <div class="col-lg-4">
-                        <div class="order_box">
-                            <h2>Votre commande</h2>
-                            <ul class="list" th:each="cartLineInfo, varStatus : ${cartInfo.cartLines}">
-                                <li>Produits<span class="last">Total</span></li>
-                                <li><span th:utext="${cartLineInfo.productInfo.name}"></span> <span class="middle" th:utext="${cartLineInfo.quantity}">x</span> <span class="last subtotal" th:utext="${#numbers.formatDecimal(cartLineInfo.amount,1,2,'COMMA')}">€</span></li>
+                        <div class="order_box checkout_btn_inner">
+                            <form th:action="@{/shoppingCartConfirmation}">
+                                <h2>Votre commande</h2>
+                                <ul class="list" th:each="cartLineInfo, varStatus : ${cartInfo.cartLines}">
+                                    <li>Produits<span class="last">Total</span></li>
+                                    <li><span th:utext="${cartLineInfo.productInfo.name}"></span><span class="middle" th:utext="${cartLineInfo.quantity}">x</span><span class="last subtotal" th:utext="${#numbers.formatDecimal(cartLineInfo.amount,1,2,'COMMA')}"></span></li>
+                                </ul>
+                                <ul class="list list_2">
+                                    <li>
+                                        <a>Livraison</a>
+                                        <span th:if="${cartInfo.shipping == 5}">NORMAL</span>
+                                        <span th:if="${cartInfo.shipping == 10}">EXPRESS</span>
+                                        <span class="last" th:utext="${cartInfo.shipping}"></span>
+                                    </li>
+                                    <li><a href="#">Sous-total <span class="last" th:utext="${#numbers.formatDecimal(cartInfo.amountTotal,1,2,'COMMA')}"></span></a></li>
+                                    <li><a href="#">TVA <span class="last"></span></a></li>
+                                    <li><a href="#">Total <span class="last" th:utext="${#numbers.formatDecimal(cartInfo.amountTotal,1,2,'COMMA')}"></span></a></li>
+                                </ul>
+                                <input class="primary-btn" type="submit" value="Procéder au paiement">
 
-                            </ul>
-                            <ul class="list list_2">
-                                <li><a href="#">Sous-total <span class="last" th:utext="${#numbers.formatDecimal(cartInfo.amountTotal,1,2,'COMMA')}"></span></a></li>
-                                <li><a href="#">TVA <span class="last"></span></a></li>
-                                <li><a href="#">Total <span class="last" th:utext="${#numbers.formatDecimal(cartInfo.amountTotal,1,2,'COMMA')}"></span></a></li>
-                            </ul>
-                            <a class="primary-btn" th:href="@{/shoppingCartConfirmation}">Procéder au paiement</a>
+                            </form>
                         </div>
                     </div>
                 </div>

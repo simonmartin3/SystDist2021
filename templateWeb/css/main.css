@@ -4567,7 +4567,13 @@ label {
     line-height: 42px; }
     .order_box .list li .last{
       float: right; }
-    .order_box .list li .middle {
+    .order_box .list li .first {
+      white-space: nowrap;
+	  display: inline-block;
+      width: 125px;
+      overflow: hidden;
+	  text-overflow: ellipsis; }
+	.order_box .list li .middle {
       float: none;
       width: 50px;
       text-align: right;

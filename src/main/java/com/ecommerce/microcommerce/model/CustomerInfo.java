@@ -26,7 +26,6 @@ public class CustomerInfo {
         this.valid = customerForm.isValid();
     }
 
-
     public String getUsername() {
         return username;
     }
