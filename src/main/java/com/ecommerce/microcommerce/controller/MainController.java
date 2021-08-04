@@ -105,7 +105,7 @@ public class MainController {
         return "productList";
     }
 
-    // Ajouter un article dans le panier
+    /*// Ajouter un article dans le panier
     @RequestMapping({ "/addItem" })
     public String listProductHandler(HttpServletRequest request, Model model, //
                                      @RequestParam(value = "code", defaultValue = "") String code) {
@@ -146,9 +146,9 @@ public class MainController {
         }
 
         return "redirect:/shoppingCart";
-    }
+    }*/
 
-    // POST: Update quantity for product in cart
+   /* // POST: Update quantity for product in cart
     @RequestMapping(value = { "/shoppingCart" }, method = RequestMethod.POST)
     public String shoppingCartUpdateQty(HttpServletRequest request, //
                                         Model model, //
@@ -168,7 +168,7 @@ public class MainController {
 
         model.addAttribute("cartForm", myCart);
         return "shoppingCart";
-    }
+    }*/
 
     // GET: Show cart and cart info
     @RequestMapping(value = { "/checkout" }, method = RequestMethod.GET)
