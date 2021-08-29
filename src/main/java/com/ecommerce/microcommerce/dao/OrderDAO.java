@@ -50,6 +50,7 @@ public class OrderDAO {
         Order order = new Order();
 
         order.setId(UUID.randomUUID().toString());
+        order.setOrderNum(orderNum);
         order.setOrderDate(new Date());
         order.setAmount(cartInfo.getAmountTotal());
 
@@ -68,9 +69,11 @@ public class OrderDAO {
             detail.setAmount(line.getAmount());
             detail.setPrice(line.getProductInfo().getPrice());
             detail.setQuanity(line.getQuantity());
+            detail.setTva(line.getTVA());
 
             String code = line.getProductInfo().getCode();
             Product product = this.productDAO.findProduct(code);
+            productDAO.updateStock(product, line.getQuantity());
             detail.setProduct(product);
 
             session.persist(detail);
@@ -85,8 +88,8 @@ public class OrderDAO {
     // @page = 1, 2, ...
     public PaginationResult<OrderInfo> listOrderInfo(int page, int maxResult, int maxNavigationPage) {
         String sql = "Select new " + OrderInfo.class.getName()//
-                + "(ord.id, ord.orderDate, ord.orderNum, ord.amount, "
-                + " ord.customerName, ord.customerAddress, ord.customerEmail, ord.customerPhone) " + " from "
+                + "(ord.id, ord.orderDate, ord.orderNum, ord.userName, ord.amount, ord.status)"
+                + " from "
                 + Order.class.getName() + " ord "//
                 + " order by ord.orderNum desc";
 
@@ -105,7 +108,7 @@ public class OrderDAO {
         if (order == null) {
             return null;
         }
-        return new OrderInfo(order.getId(), order.getOrderDate(), //
+        return new OrderInfo(order.getId(), order.getOrderDate(), order.getOrderNum(), //
                 order.getUserName(), order.getAmount(), order.getStatus());
     }
 

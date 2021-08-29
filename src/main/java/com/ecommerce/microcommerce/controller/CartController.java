@@ -59,8 +59,9 @@ public class CartController {
 
             cartInfo.addProduct(productInfo, 1);
         }
+        String url = "redirect:/gettva?code="+code;
 
-        return "redirect:/shoppingCart";
+        return url;
     }
 
     // Supprimer un article du panier

@@ -66,7 +66,7 @@
                     <ul class="nav navbar-nav menu_nav ml-auto">
                         <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
                         <th:block sec:authorize="isAuthenticated()">
-                            <li class="nav-item"><a class="nav-link" th:href="@{/admin/accountInfo}" th:utext="${#request.userPrincipal.name}"></a></li>
+                            <li class="nav-item"><a class="nav-link" href="" th:utext="${#request.userPrincipal.name}"></a></li>
                             <li class="nav-item"><a class="nav-link" th:href="@{/admin/logout}">Logout</a></li>
                         </th:block>
 
@@ -98,7 +98,7 @@
 <!--================Order Details Area =================-->
 <section class="order_details section_gap">
     <div class="container">
-        <h3 class="title_confirmation">Thank you. Your order has been received.</h3>
+        <h3 class="title_confirmation">Merci. Votre commande a bien été commandé.</h3>
     </div>
 </section>
 <!--================End Order Details Area =================-->

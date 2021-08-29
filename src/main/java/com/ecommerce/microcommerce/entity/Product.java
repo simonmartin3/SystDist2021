@@ -35,6 +35,12 @@ public class Product implements Serializable {
     @Column(name = "Create_Date", nullable = false)
     private Date createDate;
 
+    @Column(name = "Category", length = 255, nullable = false)
+    private String category;
+
+    @Column(name = "Stock", nullable = false)
+    private int stock;
+
     public Product() {
     }
 
@@ -77,5 +83,16 @@ public class Product implements Serializable {
     public void setImage(byte[] image) {
         this.image = image;
     }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {this.category = category;}
+
+    public int getStock() {return stock;}
+
+    public void setStock(int stock) {this.stock = stock;}
+
 
 }

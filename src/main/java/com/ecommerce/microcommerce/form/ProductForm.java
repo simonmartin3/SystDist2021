@@ -7,6 +7,7 @@ public class ProductForm {
     private String code;
     private String name;
     private double price;
+    private String category;
 
     private boolean newProduct = false;
 
@@ -21,6 +22,7 @@ public class ProductForm {
         this.code = product.getCode();
         this.name = product.getName();
         this.price = product.getPrice();
+        this.category = product.getCategory();
     }
 
     public String getCode() {
@@ -61,6 +63,14 @@ public class ProductForm {
 
     public void setNewProduct(boolean newProduct) {
         this.newProduct = newProduct;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
 }

@@ -23,11 +23,6 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
         DataSourceTransactionManagerAutoConfiguration.class,
         HibernateJpaAutoConfiguration.class })
 
-/*@EnableAutoConfiguration(exclude = {
-        DataSourceAutoConfiguration.class,
-        DataSourceTransactionManagerAutoConfiguration.class,
-        HibernateJpaAutoConfiguration.class })*/
-
 public class MicrocommerceApplication {
 
     @Autowired

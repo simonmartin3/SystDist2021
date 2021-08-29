@@ -1,5 +1,8 @@
 package com.ecommerce.microcommerce.model;
 
+import com.ecommerce.microcommerce.dao.ProductDAO;
+import com.ecommerce.microcommerce.entity.Product;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +14,8 @@ public class CartInfo {
     private int shipping = 5;
 
     private CustomerInfo customerInfo;
+
+    private ProductDAO productDAO;
 
     private final List<CartLineInfo> cartLines = new ArrayList<CartLineInfo>();
 
@@ -83,8 +88,17 @@ public class CartInfo {
             if (quantity <= 0) {
                 this.cartLines.remove(line);
             } else {
-                line.setQuantity(quantity);
+                if (line.getProductInfo().getStock()-quantity >= 0)
+                    line.setQuantity(quantity);
             }
+        }
+    }
+
+    public void updateTVA(ProductInfo productInfo, double tva) {
+        CartLineInfo line = this.findLineByCode(productInfo.getCode());
+
+        if (line != null) {
+            line.setTVA(tva);
         }
     }
 
@@ -111,10 +125,26 @@ public class CartInfo {
         return quantity;
     }
 
-    public double getAmountTotal() {
+    public double getTVATotal() {
+        double total = 0;
+        for (CartLineInfo line : this.cartLines) {
+            total += line.getTVA();
+        }
+        return total;
+    }
+
+    public double getAmountSubTotal() {
         double total = 0;
         for (CartLineInfo line : this.cartLines) {
             total += line.getAmount();
+        }
+        return total;
+    }
+
+    public double getAmountTotal() {
+        double total = 0;
+        for (CartLineInfo line : this.cartLines) {
+            total += line.getTVA();
         }
         total += shipping;
         return total;

@@ -45,7 +45,7 @@
                         <ul class="nav navbar-nav menu_nav ml-auto">
                             <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
                             <th:block sec:authorize="isAuthenticated()">
-                                <li class="nav-item"><a class="nav-link" th:href="@{/admin/accountInfo}" th:utext="${#request.userPrincipal.name}"></a></li>
+                                <li class="nav-item"><a class="nav-link" href="" th:utext="${#request.userPrincipal.name}"></a></li>
                                 <li class="nav-item"><a class="nav-link" th:href="@{/admin/logout}">Logout</a></li>
                             </th:block>
 
@@ -79,8 +79,8 @@
     <section class="cart_area">
         <div class="container">
             <th:block th:if="${cartForm == null || cartForm.cartLines == null || cartForm.cartLines.empty}">
-                <h2>There is no items in Cart</h2>
-                <a th:href="@{/#product}">Show Product List</a>
+                <h2>Aucun article(s) dans le panier.</h2>
+                <a th:href="@{/#product}">Continuer Shopping</a>
             </th:block>
             <th:block th:if="${cartForm != null && cartForm.cartLines != null && !cartForm.cartLines.empty}">
             <div class="cart_inner">
@@ -92,6 +92,7 @@
                                 <th scope="col">Price</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Total</th>
+                                <th class="text-right" scope="col">T.V.A.</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -126,6 +127,11 @@
                                             <h5><span class="subtotal"
                                                       th:utext="${#numbers.formatDecimal(cartLineInfo.amount,1,2,'COMMA')}"></span>€</h5>
                                         </td>
+                                        <td>
+                                            <h5 class="text-right"><span class="tva"
+                                                      th:utext="${#numbers.formatDecimal(cartLineInfo.getTVA(),1,2,'COMMA')}"></span>€</h5>
+
+                                        </td>
                                     </tr>
                                     <tr class="bottom_button">
                                         <td>
@@ -140,10 +146,16 @@
                                         <td>
 
                                         </td>
+                                        <td>
+
+                                        </td>
                                     </tr>
                                 <tr class="shipping_area">
                                     <td>
-                                        <input class="button-update-sc gray_btn" type="submit" value="Update Shipping" />
+                                        <input class="gray_btn" type="submit" value="Update Shipping" />
+                                    </td>
+                                    <td>
+
                                     </td>
                                     <td>
 
@@ -171,6 +183,9 @@
                                 </tr>
                             </form>
                             <tr class="out_button_area">
+                                <td>
+
+                                </td>
                                 <td>
 
                                 </td>

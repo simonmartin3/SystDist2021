@@ -4,6 +4,7 @@ public class CartLineInfo {
 
     private ProductInfo productInfo;
     private int quantity;
+    private double TVA;
 
     public CartLineInfo() {
         this.quantity = 0;
@@ -28,5 +29,11 @@ public class CartLineInfo {
     public double getAmount() {
         return this.productInfo.getPrice() * this.quantity;
     }
+
+    public void setTVA(double TVA) {
+        this.TVA = TVA;
+    }
+
+    public double getTVA(){return TVA * this.quantity;}
 
 }

@@ -47,7 +47,7 @@
                     <ul class="nav navbar-nav menu_nav ml-auto">
                         <li class="nav-item active"><a class="nav-link" th:href="@{/}">Home</a></li>
                         <th:block sec:authorize="isAuthenticated()">
-                            <li class="nav-item"><a class="nav-link" th:href="@{/admin/accountInfo}" th:utext="${#request.userPrincipal.name}"></a></li>
+                            <li class="nav-item"><a class="nav-link" href="" th:utext="${#request.userPrincipal.name}"></a></li>
                             <li class="nav-item"><a class="nav-link" th:href="@{/admin/logout}">Logout</a></li>
                         </th:block>
 
@@ -77,10 +77,6 @@
                             <div class="banner-content">
                                 <h1>Dites bonjour<br>à la couleur.</h1>
                                 <p>Facile à maîtriser. Prodigieusement puissant. Le Mac est conçu pour vous permettre de travailler, jouer et créer comme jamais vous ne l’auriez imaginé. Il offre de nombreuses apps intégrées, prêtes à utiliser. Grâce aux mises à jour logicielles régulières et gratuites, tout fonctionne parfaitement. Et si vous possédez déjà un iPhone, votre Mac vous semblera familier dès que vous l’allumerez.</p>
-                                <div class="add-bag d-flex align-items-center">
-                                    <a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
-                                    <span class="add-text text-uppercase">Ajouter au Panier</span>
-                                </div>
                             </div>
                         </div>
                         <div class="col-lg-7">
@@ -156,6 +152,10 @@
             </div>
             <div class="row">
                 <!-- single product -->
+
+                    <div th:if= "${#request.getParameter('error') == 'true'}" class="genric-btn danger col-md-12">
+                        Le produit est en rupture de stock.
+                    </div>
                 <div class="col-lg-3 col-md-6" th:each="prodInfo : ${paginationProducts.list}">
                     <div class="single-product">
                         <img class="img-fluid" th:src="@{|/productImage?code=${prodInfo.code}|}" alt="">
@@ -166,7 +166,7 @@
                             </div>
                             <div class="prd-bottom">
 
-                                <a th:href="@{|/addItem?code=${prodInfo.code}|}" class="social-info">
+                                <a th:href="@{|/getStock?code=${prodInfo.code}|}" class="social-info">
                                     <span class="ti-bag"></span>
                                     <p class="hover-text">ajouter</p>
                                 </a>

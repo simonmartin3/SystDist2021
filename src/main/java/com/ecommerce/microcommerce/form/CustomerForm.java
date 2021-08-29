@@ -17,23 +17,10 @@ public class CustomerForm {
 
     }
 
-    public CustomerForm(CustomerInfo customerInfo) {
-        if (customerInfo != null) {
-            this.username = customerInfo.getUsername();
-            this.lastname = customerInfo.getLastname();
-            this.address = customerInfo.getAddress();
-            this.city = customerInfo.getCity();
-            this.zip = customerInfo.getZip();
-        }
-    }
-
     public CustomerForm(Account account) {
         if (account != null) {
             this.username = account.getUserName();
-            this.lastname = account.getLastName();
-            this.address = account.getAddress();
-            this.city = account.getCity();
-            this.zip = account.getZip();
+            this.address = account.getUserAddress();
         }
     }
 

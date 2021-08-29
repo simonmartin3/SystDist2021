@@ -6,6 +6,8 @@ public class ProductInfo {
     private String code;
     private String name;
     private double price;
+    private String category;
+    private int stock;
 
     public ProductInfo() {
     }
@@ -14,13 +16,17 @@ public class ProductInfo {
         this.code = product.getCode();
         this.name = product.getName();
         this.price = product.getPrice();
+        this.category = product.getCategory();
+        this.stock = product.getStock();
     }
 
     // Using in JPA/Hibernate query
-    public ProductInfo(String code, String name, double price) {
+    public ProductInfo(String code, String name, double price, String category, int stock) {
         this.code = code;
         this.name = name;
         this.price = price;
+        this.category = category;
+        this.stock = stock;
     }
 
     public String getCode() {
@@ -46,5 +52,17 @@ public class ProductInfo {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public int getStock() {return stock;}
+
+    public void setStock(int stock) {this.stock = stock;}
 
 }

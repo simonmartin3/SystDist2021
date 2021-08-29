@@ -6,10 +6,7 @@ import com.ecommerce.microcommerce.form.CustomerForm;
 public class CustomerInfo {
 
     private String username;
-    private String lastname;
     private String address;
-    private String city;
-    private int zip;
 
     private boolean valid;
 
@@ -17,13 +14,11 @@ public class CustomerInfo {
 
     }
 
-    public CustomerInfo(CustomerForm customerForm) {
-        this.username = customerForm.getUsername();
-        this.lastname = customerForm.getLastname();
-        this.address = customerForm.getAddress();
-        this.city = customerForm.getCity();
-        this.zip = customerForm.getZip();
-        this.valid = customerForm.isValid();
+    public CustomerInfo(Account account) {
+        if (account != null) {
+            this.username = account.getUserName();
+            this.address = account.getUserAddress();
+        }
     }
 
     public String getUsername() {
@@ -34,36 +29,12 @@ public class CustomerInfo {
         this.username = username;
     }
 
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
     public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public int getZip() {
-        return zip;
-    }
-
-    public void setZip(int zip) {
-        this.zip = zip;
     }
 
     public boolean isValid() {

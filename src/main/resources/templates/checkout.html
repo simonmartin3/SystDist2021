@@ -47,7 +47,7 @@
                     <ul class="nav navbar-nav menu_nav ml-auto">
                         <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
                         <th:block sec:authorize="isAuthenticated()">
-                            <li class="nav-item"><a class="nav-link" th:href="@{/admin/accountInfo}" th:utext="${#request.userPrincipal.name}"></a></li>
+                            <li class="nav-item"><a class="nav-link" href="" th:utext="${#request.userPrincipal.name}"></a></li>
                             <li class="nav-item"><a class="nav-link" th:href="@{/admin/logout}">Logout</a></li>
                         </th:block>
 
@@ -80,58 +80,91 @@
     <!--================Checkout Area =================-->
     <section class="checkout_area section_gap">
         <div class="container">
-            <div class="billing_details">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <h3>Détails de la facture</h3>
-
-                        <form class="row contact_form" th:object="${customerForm}" th:action="@{/checkout}" method="post" novalidate="novalidate">
-                            <div class="col-md-6 form-group p_star">
-                                <h6>Prénom</h6>
-                                <input type="text" class="form-control" id="first" th:value="${customerForm.username}" readonly="true">
-                            </div>
-                            <div class="col-md-6 form-group p_star">
-                                <h6>Nom</h6>
-                                <input type="text" class="form-control" id="last" th:value="${customerForm.lastname}" readonly="true">
-                            </div>
-                            <div class="col-md-12 form-group p_star">
-                                <h6>Rue</h6>
-                                <input type="text" class="form-control" id="add1" th:value="${customerForm.address}" readonly="true">
-                            </div>
-                            <div class="col-md-12 form-group p_star">
-                                <h6>Ville</h6>
-                                <input type="text" class="form-control" id="city" th:value="${customerForm.city}" readonly="true">
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <h6>Code postal</h6>
-                                <input type="text" class="form-control" id="zip" th:value="${customerForm.zip}" readonly="true">
-                            </div>
-                        </form>
+            <div class="row order_d_inner">
+                <div class="col-lg-8">
+                    <div class="details_item">
+                        <h4>Informations client</h4>
+                        <ul class="list">
+                            <li><p><span>Username</span> : <span th:utext="${customerInfo.username}"></span></p></li>
+                            <li><p><span>Adresse</span> : <span th:utext="${customerInfo.address}"></span></p></li>
+                        </ul>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="order_box checkout_btn_inner">
-                            <form th:action="@{/shoppingCartConfirmation}">
-                                <h2>Votre commande</h2>
-                                <ul class="list" th:each="cartLineInfo, varStatus : ${cartInfo.cartLines}">
-                                    <li>Produits<span class="last">Total</span></li>
-                                    <li><span th:utext="${cartLineInfo.productInfo.name}"></span><span class="middle" th:utext="${cartLineInfo.quantity}">x</span><span class="last subtotal" th:utext="${#numbers.formatDecimal(cartLineInfo.amount,1,2,'COMMA')}"></span></li>
-                                </ul>
-                                <ul class="list list_2">
-                                    <li>
-                                        <a>Livraison</a>
-                                        <span th:if="${cartInfo.shipping == 5}">NORMAL</span>
-                                        <span th:if="${cartInfo.shipping == 10}">EXPRESS</span>
-                                        <span class="last" th:utext="${cartInfo.shipping}"></span>
-                                    </li>
-                                    <li><a href="#">Sous-total <span class="last" th:utext="${#numbers.formatDecimal(cartInfo.amountTotal,1,2,'COMMA')}"></span></a></li>
-                                    <li><a href="#">TVA <span class="last"></span></a></li>
-                                    <li><a href="#">Total <span class="last" th:utext="${#numbers.formatDecimal(cartInfo.amountTotal,1,2,'COMMA')}"></span></a></li>
-                                </ul>
-                                <input class="primary-btn" type="submit" value="Procéder au paiement">
-
-                            </form>
-                        </div>
-                    </div>
+                </div>
+            </div>
+            <div class="order_details_table">
+                <h2>Détails commande</h2>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Produit</th>
+                            <th scope="col">Quantité</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="cartLineInfo, varStatus : ${cartInfo.cartLines}">
+                            <td>
+                                <p><span th:utext="${cartLineInfo.productInfo.name}"></span></p>
+                            </td>
+                            <td>
+                                <h5>X<span th:utext="${cartLineInfo.quantity}"></span></h5>
+                            </td>
+                            <td>
+                                <p><span th:utext="${#numbers.formatDecimal(cartLineInfo.amount,1,2,'COMMA')}"></span>€</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>Sous-total</h4>
+                            </td>
+                            <td>
+                                <h5></h5>
+                            </td>
+                            <td>
+                                <p><span th:utext="${#numbers.formatDecimal(cartInfo.getAmountSubTotal(),1,2,'COMMA')}"></span>€</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>TVA</h4>
+                            </td>
+                            <td>
+                                <h5></h5>
+                            </td>
+                            <td>
+                                <p><span th:utext="${#numbers.formatDecimal(cartInfo.getTVATotal(),1,2,'COMMA')}"></span>€</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>Livraison</h4>
+                            </td>
+                            <td>
+                                <h5></h5>
+                            </td>
+                            <td>
+                                <p><span th:if="${cartInfo.shipping == 5}">NORMAL</span>
+                                    <span th:if="${cartInfo.shipping == 10}">EXPRESS</span>
+                                    <span class="last" th:utext="${cartInfo.shipping}"></span>€</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>Total</h4>
+                            </td>
+                            <td>
+                                <h5></h5>
+                            </td>
+                            <td>
+                                <p><span th:utext="${#numbers.formatDecimal(cartInfo.getAmountTotal(),1,2,'COMMA')}"></span>€</p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12 text-right">
+                    <a class="primary-btn" th:href="@{/shoppingCartConfirmation}">Commander</a>
                 </div>
             </div>
         </div>

@@ -37,6 +37,9 @@ public class OrderDetail implements Serializable {
     @Column(name = "Price", nullable = false)
     private double price;
 
+    @Column(name = "TVA", nullable = false)
+    private double tva;
+
     @Column(name = "Amount", nullable = false)
     private double amount;
 
@@ -78,6 +81,12 @@ public class OrderDetail implements Serializable {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public double getTva() {return tva;}
+
+    public void setTva(double tva) {
+        this.tva = tva;
     }
 
     public double getAmount() {

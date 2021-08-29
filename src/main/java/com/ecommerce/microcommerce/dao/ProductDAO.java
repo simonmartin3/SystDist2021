@@ -1,7 +1,9 @@
 package com.ecommerce.microcommerce.dao;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.NoResultException;
 
@@ -42,7 +44,7 @@ public class ProductDAO {
         if (product == null) {
             return null;
         }
-        return new ProductInfo(product.getCode(), product.getName(), product.getPrice());
+        return new ProductInfo(product.getCode(), product.getName(), product.getPrice(), product.getCategory(), product.getStock());
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
@@ -65,6 +67,7 @@ public class ProductDAO {
         product.setCode(code);
         product.setName(productForm.getName());
         product.setPrice(productForm.getPrice());
+        product.setCategory(productForm.getCategory());
 
         if (productForm.getFileData() != null) {
             byte[] image = null;
@@ -83,10 +86,23 @@ public class ProductDAO {
         session.flush();
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
+    public void updateStock(Product product, int quantity) {
+
+        Session session = this.sessionFactory.getCurrentSession();
+
+        if (product != null) {
+
+            product.setStock(product.getStock()-quantity);
+        }
+        // If error in DB, Exceptions will be thrown out immediately
+        session.flush();
+    }
+
     public PaginationResult<ProductInfo> queryProducts(int page, int maxResult, int maxNavigationPage,
                                                        String likeName) {
         String sql = "Select new " + ProductInfo.class.getName() //
-                + "(p.code, p.name, p.price) " + " from "//
+                + "(p.code, p.name, p.price, p.category, p.stock) " + " from "//
                 + Product.class.getName() + " p ";
         if (likeName != null && likeName.length() > 0) {
             sql += " Where lower(p.name) like :likeName ";
@@ -105,5 +121,7 @@ public class ProductDAO {
     public PaginationResult<ProductInfo> queryProducts(int page, int maxResult, int maxNavigationPage) {
         return queryProducts(page, maxResult, maxNavigationPage, null);
     }
+
+
 
 }
